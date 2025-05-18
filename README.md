@@ -231,23 +231,69 @@ Khi chạy ứng dụng lần đầu, hoặc nếu các đường dẫn/thông t
 
 ## 6. Khắc phục sự cố thường gặp
 
-* **Lỗi `JFileChooser NullPointerException` khi nhấn nút "..." trong Cài đặt:**
-    * Đây có thể là vấn đề với Windows Look and Feel trên một số phiên bản Java (ví dụ JDK 22).
-    * **Giải pháp:** Mở file `src\main\java\com\yourcompany\mp3joiner\MainApp.java` (thay `yourcompany` bằng package của bạn), thay đổi `UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());` thành `UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());`. Build lại project (`mvn clean package`). Giao diện sẽ đổi sang "Metal" nhưng `JFileChooser` sẽ hoạt động ổn định.
+* **Lỗi `NullPointerException` khi nhấn nút "..." trong Dialog Cài đặt (để duyệt file/thư mục):**
+    * **Nguyên nhân:** Lỗi này có thể xảy ra trên một số cấu hình Windows với phiên bản Java nhất định (ví dụ: JDK 22) khi ứng dụng sử dụng `Windows Look and Feel` (giao diện mặc định của hệ thống). Lỗi liên quan đến việc Java cố gắng lấy icon hệ thống cho file/thư mục.
+    * **Giải pháp tạm thời để có thể cấu hình đường dẫn:**
+        1.  **Mở file mã nguồn:** `src\main\java\com\yourcompany\mp3joiner\MainApp.java` (thay `com\yourcompany\mp3joiner` bằng package thực tế của bạn nếu khác).
+        2.  **Chỉnh sửa code:**
+            * **Comment out (vô hiệu hóa) dòng:**
+                ```java
+                // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                ```
+            * **Bỏ comment (kích hoạt) các dòng sau để sử dụng "Metal" Look and Feel:**
+                ```java
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                System.out.println("Using Look and Feel: " + UIManager.getLookAndFeel().getName());
+                ```
+            * Sau khi sửa, file `MainApp.java` của bạn sẽ trông giống như sau ở phần đầu hàm `main`:
+                ```java
+                public class MainApp {
+                    public static void main(String[] args) {    
+                        try {
+                            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // Dòng này được comment out
+
+                            // Sử dụng CrossPlatformLookAndFeel (Metal) để kiểm tra
+                            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                            System.out.println("Using Look and Feel: " + UIManager.getLookAndFeel().getName());
+
+                        } catch (Exception e) {
+                            System.err.println("Không thể set Look and Feel: " + e.getMessage());
+                        }
+
+                        SwingUtilities.invokeLater(() -> {
+                            MainFrame mainFrame = new MainFrame();
+                            mainFrame.setVisible(true);
+                        });
+                    }
+                }
+                ```
+        3.  **Lưu file `MainApp.java` lại.**
+        4.  **Build lại project:** Mở terminal trong thư mục gốc dự án và chạy `mvn clean package`.
+        5.  **Chạy file JAR mới** trong thư mục `target`. Ứng dụng bây giờ sẽ có giao diện "Metal" (giao diện Java cổ điển).
+        6.  **Thực hiện Cấu hình:** Vào `File -> Cài đặt...` và nhấn các nút "..." để chọn đường dẫn FFMPEG, Vosk Model. Với giao diện "Metal", lỗi `NullPointerException` khi duyệt file sẽ không còn. Điền đầy đủ các thông tin CSDL và nhấn "Lưu".
+        7.  **Khôi phục giao diện Windows (Tùy chọn):** Sau khi đã cấu hình thành công tất cả các đường dẫn và thông số, nếu bạn muốn quay lại giao diện Windows đẹp hơn (và chấp nhận rằng nút "..." có thể không hoạt động nếu bạn cần cấu hình lại), bạn có thể:
+            * Mở lại file `MainApp.java`.
+            * Comment out dòng: `// UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());`
+            * Bỏ comment dòng: `UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());`
+            * Lưu file, build lại project (`mvn clean package`) và chạy lại file JAR mới. Ứng dụng sẽ có giao diện Windows, và các đường dẫn bạn đã lưu trước đó vẫn sẽ được sử dụng.
+
 * **Lỗi không tìm thấy FFMPEG/FFPROBE (`Cannot run program "ffmpeg"/"ffprobe"`):**
     * Đảm bảo đường dẫn đến `ffmpeg.exe` được cấu hình đúng trong Dialog Cài đặt của ứng dụng (trỏ đến file `ffmpeg.exe` trong thư mục `JAVA_CUOI_KY\ffmpeg\bin\`). Ứng dụng sẽ tự suy ra đường dẫn `ffprobe.exe`.
-    * Kiểm tra xem các file DLL cần thiết có nằm cùng thư mục `bin` với `ffmpeg.exe` không (nếu bạn không dùng bản static).
+    * Sử dụng bản FFMPEG "static" build được khuyến nghị để tránh lỗi DLL. Kiểm tra xem các file DLL cần thiết có nằm cùng thư mục `bin` với `ffmpeg.exe` không nếu bạn dùng bản "shared".
+
 * **Lỗi kết nối CSDL SQL Server (`SocketTimeoutException`, `Invalid object name 'tbl_xxx'`, `Login failed`):**
     * Kiểm tra kỹ các dịch vụ SQL Server (`SQL Server (SQLEXPRESS)`) có đang chạy.
-    * Đảm bảo TCP/IP được bật cho instance SQL Server trên cổng 1433 và đã khởi động lại dịch vụ sau khi thay đổi.
-    * Kiểm tra Firewall.
-    * Đảm bảo thông tin kết nối (server `localhost,1433`, database name `MP3ManagerDB`, user, password) trong Dialog Cài đặt của ứng dụng là chính xác.
+    * Đảm bảo TCP/IP được bật cho instance SQL Server trên cổng 1433 và đã khởi động lại dịch vụ SQL Server sau khi thay đổi.
+    * Kiểm tra Firewall có chặn kết nối không (UDP 1434, TCP 1433).
+    * Đảm bảo thông tin kết nối (server nên là `localhost,1433`, database name `MP3ManagerDB`, user, password) trong Dialog Cài đặt của ứng dụng là chính xác.
     * Đảm bảo đã chạy script `MP3ManagerDB.sql` để tạo các bảng trong đúng database `MP3ManagerDB`.
+
 * **Thời lượng file MP3 hiển thị là 00:00:**
     * Thường do lỗi không chạy được `ffprobe.exe`. Xem lại mục khắc phục sự cố FFMPEG.
+
 * **AI trích xuất câu không chính xác / thời gian không hợp lệ:**
-    * Chất lượng phụ thuộc model AI và âm thanh. Sử dụng chức năng "Chỉnh sửa câu thủ công".
+    * Chất lượng trích xuất phụ thuộc vào model AI và chất lượng âm thanh. Sử dụng chức năng "Chỉnh sửa câu thủ công".
     * Ứng dụng đã có logic lọc bỏ các câu có thời gian không hợp lệ (bắt đầu >= kết thúc) trước khi lưu và khi chuẩn bị ghép.
 
 ---
-*(Kết thúc README.md)*"# java_cuoi_ky" 
+
