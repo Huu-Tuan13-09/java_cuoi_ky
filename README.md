@@ -118,6 +118,7 @@ D:/JAVA_CUOI_KY/  (Thư mục gốc của dự án)
 ├─── MP3ManagerDB.sql              // Script SQL tạo bảng CSDL
 ├─── pom.xml                       // File cấu hình Maven
 └─── README.md                     // File hướng dẫn này
+```
 ## 3. Yêu cầu hệ thống
 
 * **Hệ điều hành:** Windows (Ứng dụng được phát triển và thử nghiệm chủ yếu trên Windows).
