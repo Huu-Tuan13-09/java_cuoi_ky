@@ -144,7 +144,7 @@ Vui lòng thực hiện theo các bước sau để cài đặt và chạy ứng
 
 ### Bước 2: Kiểm tra các tài nguyên đã có sẵn trong dự án
 
-Thư mục `JAVA_CUOI_KY` bạn nộp đã bao gồm các tài nguyên cần thiết:
+Thư mục `JAVA_CUOI_KY` đã bao gồm các tài nguyên cần thiết:
 
 * **FFMPEG:** Nằm trong thư mục `JAVA_CUOI_KY\ffmpeg\bin\`. Ứng dụng đã được cấu hình để ưu tiên tìm `ffmpeg.exe` và `ffprobe.exe` tại đây.
     * *Người dùng không cần tải hay cài đặt FFMPEG riêng nếu các file thực thi và DLL cần thiết đã có trong thư mục này.*
