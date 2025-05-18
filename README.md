@@ -59,35 +59,65 @@ D:/JAVA_CUOI_KY/
 |       +-- (và các file .dll khác)
 |
 +-- src/
-|   +-- main/
-|   |   +-- java/
-|   |   |   +-- com/
-|   |   |       +-- yourcompany/
-|   |   |           +-- mp3joiner/
-|   |   |               +-- MainApp.java
-|   |   |               +-- db/
-|   |   |               |   +-- (CompositionInfo.java, DatabaseManager.java, etc.)
-|   |   |               +-- service/
-|   |   |               |   +-- (AIService.java, AudioProcessor.java, etc.)
-|   |   |               +-- ui/
-|   |   |               |   +-- (MainFrame.java, SettingsDialog.java)
-|   |   |               +-- util/
-|   |   |                   +-- (TimeConverter.java)
-|   |   +-- resources/
-|   |       +-- log4j2.xml
-|   |       +-- models/
-|   |           +-- vosk-model-small-vn-0.4/
-|   |               +-- ... (các file và thư mục con của model)
-|   +-- test/
-|       +-- (Mã nguồn unit test - nếu có)
-|
-+-- target/
-|   +-- mp3joiner-1.0-SNAPSHOT-jar-with-dependencies.jar
-|   +-- ... (các file và thư mục khác)
-|
-+-- MP3ManagerDB.sql
-+-- pom.xml
-+-- README.md
+|   +-- main## 2. Cấu trúc thư mục dự án
+
+Dự án được tổ chức theo cấu trúc chuẩn của Maven. Các tài nguyên quan trọng như FFMPEG và Model AI Vosk được đặt sẵn trong thư mục dự án để thuận tiện cho việc triển khai.
+
+```text
+D:/JAVA_CUOI_KY/  (Thư mục gốc của dự án)
+│
+├─── .vscode/                      // Thư mục cài đặt riêng của VS Code cho dự án
+│    └─── launch.json              // Cấu hình chạy và debug từ VS Code
+│
+├─── ffmpeg/                       // Thư mục chứa FFMPEG
+│    └─── bin/                     // Chứa các file thực thi và thư viện của FFMPEG
+│            ffmpeg.exe           // File thực thi FFMPEG
+│            ffprobe.exe          // Công cụ phân tích media của FFMPEG
+│            (và các file .dll cần thiết khác như avcodec-61.dll, avutil-59.dll, etc.)
+│
+├─── src/                          // Mã nguồn và tài nguyên của dự án
+│    ├─── main/                    // Mã nguồn chính và tài nguyên
+│    │    ├─── java/               // Thư mục gốc mã nguồn Java
+│    │    │    └─── com/
+│    │    │         └─── yourcompany/  // Thay "yourcompany" bằng groupId thực tế
+│    │    │              └─── mp3joiner/ // Package gốc ứng dụng
+│    │    │                   │   MainApp.java              // Điểm khởi chạy ứng dụng
+│    │    │                   │
+│    │    │                   ├─── db/  // Các lớp liên quan đến CSDL
+│    │    │                   │    ├─── CompositionInfo.java
+│    │    │                   │    ├─── DatabaseManager.java
+│    │    │                   │    ├─── FileInfo.java
+│    │    │                   │    └─── SentenceInfo.java
+│    │    │                   │
+│    │    │                   ├─── service/ // Các lớp logic nghiệp vụ
+│    │    │                   │    ├─── AIService.java
+│    │    │                   │    ├─── AudioProcessor.java
+│    │    │                   │    └─── FileManagementService.java
+│    │    │                   │
+│    │    │                   ├─── ui/   // Các lớp giao diện người dùng
+│    │    │                   │    ├─── MainFrame.java
+│    │    │                   │    └─── SettingsDialog.java
+│    │    │                   │
+│    │    │                   └─── util/ // Các lớp tiện ích
+│    │    │                        └─── TimeConverter.java
+│    │    │
+│    │    └─── resources/            // Tài nguyên không phải code Java
+│    │         │   log4j2.xml        // (Tùy chọn) Cấu hình logging
+│    │         │
+│    │         └─── models/           // Chứa các model AI
+│    │              └─── vosk-model-small-vn-0.4/ // Model Vosk tiếng Việt
+│    │                   └─── ... (các file và thư mục con của model)
+│    │
+│    └─── test/                     // (Tùy chọn) Mã nguồn cho unit test (hiện có thể trống)
+│
+├─── target/                       // Thư mục do Maven tạo ra khi build
+│    │   mp3joiner-1.0-SNAPSHOT-jar-with-dependencies.jar // File JAR thực thi
+│    │   mp3joiner-1.0-SNAPSHOT.jar                     // File JAR không có thư viện
+│    │   ... (các file và thư mục khác)
+│
+├─── MP3ManagerDB.sql              // Script SQL tạo bảng CSDL
+├─── pom.xml                       // File cấu hình Maven
+└─── README.md                     // File hướng dẫn này
 ## 3. Yêu cầu hệ thống
 
 * **Hệ điều hành:** Windows (Ứng dụng được phát triển và thử nghiệm chủ yếu trên Windows).
