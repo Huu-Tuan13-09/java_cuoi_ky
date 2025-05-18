@@ -47,22 +47,6 @@
 
 Dự án được tổ chức theo cấu trúc chuẩn của Maven. Các tài nguyên quan trọng như FFMPEG và Model AI Vosk được đặt sẵn trong thư mục dự án để thuận tiện cho việc triển khai.
 
-D:/JAVA_CUOI_KY/
-|
-+-- .vscode/
-|   +-- launch.json
-|
-+-- ffmpeg/
-|   +-- bin/
-|       +-- ffmpeg.exe
-|       +-- ffprobe.exe
-|       +-- (và các file .dll khác)
-|
-+-- src/
-|   +-- main## 2. Cấu trúc thư mục dự án
-
-Dự án được tổ chức theo cấu trúc chuẩn của Maven. Các tài nguyên quan trọng như FFMPEG và Model AI Vosk được đặt sẵn trong thư mục dự án để thuận tiện cho việc triển khai.
-
 ```text
 D:/JAVA_CUOI_KY/  (Thư mục gốc của dự án)
 │
