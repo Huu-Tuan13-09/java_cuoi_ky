@@ -47,71 +47,47 @@
 
 Dự án được tổ chức theo cấu trúc chuẩn của Maven. Các tài nguyên quan trọng như FFMPEG và Model AI Vosk được đặt sẵn trong thư mục dự án để thuận tiện cho việc triển khai.
 
-D:/JAVA_CUOI_KY/  (Thư mục gốc của dự án)
-│
-├─── .vscode/                      // Thư mục cài đặt riêng của VS Code cho dự án
-│    └─── launch.json              // Cấu hình chạy và debug từ VS Code
-│
-├─── ffmpeg/                       // Thư mục chứa FFMPEG
-│    └─── bin/                     // Chứa các file thực thi và thư viện của FFMPEG
-│            ffmpeg.exe           // File thực thi FFMPEG
-│            ffprobe.exe          // Công cụ phân tích media của FFMPEG
-│            (và các file .dll cần thiết khác)
-│
-├─── src/                          // Mã nguồn và tài nguyên của dự án
-│    ├─── main/                    // Mã nguồn chính và tài nguyên
-│    │    ├─── java/               // Thư mục gốc mã nguồn Java
-│    │    │    └─── com/
-│    │    │         └─── yourcompany/  // Thay "yourcompany" bằng groupId thực tế
-│    │    │              └─── mp3joiner/ // Package gốc ứng dụng
-│    │    │                   │   MainApp.java              // Điểm khởi chạy ứng dụng
-│    │    │                   │
-│    │    │                   ├─── db/  // Các lớp liên quan đến CSDL
-│    │    │                   │    └─── (CompositionInfo.java, DatabaseManager.java, etc.)
-│    │    │                   │
-│    │    │                   ├─── service/ // Các lớp logic nghiệp vụ
-│    │    │                   │    └─── (AIService.java, AudioProcessor.java, etc.)
-│    │    │                   │
-│    │    │                   ├─── ui/   // Các lớp giao diện người dùng
-│    │    │                   │    └─── (MainFrame.java, SettingsDialog.java)
-│    │    │                   │
-│    │    │                   └─── util/ // Các lớp tiện ích
-│    │    │                        └─── (TimeConverter.java)
-│    │    │
-│    │    └─── resources/            // Tài nguyên không phải code Java
-│    │         │   log4j2.xml        // (Tùy chọn) Cấu hình logging
-│    │         │
-│    │         └─── models/           // Chứa các model AI
-│    │              └─── vosk-model-small-vn-0.4/ // Model Vosk tiếng Việt
-│    │                   └─── ... (các file và thư mục con của model)
-│    │
-│    └─── test/                     // (Tùy chọn) Mã nguồn cho unit test
-│
-├─── target/                       // Thư mục do Maven tạo ra khi build
-│    │   mp3joiner-1.0-SNAPSHOT-jar-with-dependencies.jar // File JAR thực thi
-│    │   ... (các file và thư mục khác)
-│
-├─── MP3ManagerDB.sql              // Script SQL tạo bảng CSDL
-├─── pom.xml                       // File cấu hình Maven
-└─── README.md                     // File hướng dẫn này
-
-
-**Giải thích các ký tự dùng để vẽ cây thư mục:**
-
-* `│` (Ký tự sổ dọc): Dùng để vẽ các đường nối dọc.
-* `├───` (Sổ dọc + gạch ngang): Dùng để chỉ một thư mục hoặc file con.
-* `└───` (Góc + gạch ngang): Dùng để chỉ thư mục hoặc file con cuối cùng trong một cấp.
-* Thụt đầu dòng (dấu cách hoặc tab): Để thể hiện các cấp thư mục.
-
-**Lưu ý khi chỉnh sửa:**
-
-* **`yourcompany`**: Hãy thay thế bằng `groupId` thực tế của bạn nếu nó khác.
-* **Tên file JAR:** Đảm bảo tên file `mp3joiner-1.0-SNAPSHOT-jar-with-dependencies.jar` trong thư mục `target/` là chính xác.
-* **Chi tiết các file trong package:** Tôi đã rút gọn phần liệt kê các file `.java` trong các package con (`db`, `service`, `ui`, `util`) bằng cách ghi `(CompositionInfo.java, DatabaseManager.java, etc.)` để cho ngắn gọn. Bạn có thể liệt kê đầy đủ nếu muốn, hoặc giữ nguyên như vậy.
-* **Các file DLL của FFMPEG:** Tôi cũng ghi `(và các file .dll cần thiết khác)` để bạn không cần liệt kê hết.
-* **Thụt đầu dòng:** Hãy cẩn thận với việc thụt đầu dòng để cấu trúc cây được hiển thị đúng. Markdown thường nhạy cảm với số lượng dấu cách.
-
-Sau khi bạn dán đoạn trên vào `README.md` và lưu lại, khi bạn xem file này trên GitHub (hoặc một trình xem Markdown hỗ trợ khối mã), nó sẽ hiển thị cấu trúc thư mục một cách rõ ràng và dễ đọc.
+D:/JAVA_CUOI_KY/
+|
++-- .vscode/
+|   +-- launch.json
+|
++-- ffmpeg/
+|   +-- bin/
+|       +-- ffmpeg.exe
+|       +-- ffprobe.exe
+|       +-- (và các file .dll khác)
+|
++-- src/
+|   +-- main/
+|   |   +-- java/
+|   |   |   +-- com/
+|   |   |       +-- yourcompany/
+|   |   |           +-- mp3joiner/
+|   |   |               +-- MainApp.java
+|   |   |               +-- db/
+|   |   |               |   +-- (CompositionInfo.java, DatabaseManager.java, etc.)
+|   |   |               +-- service/
+|   |   |               |   +-- (AIService.java, AudioProcessor.java, etc.)
+|   |   |               +-- ui/
+|   |   |               |   +-- (MainFrame.java, SettingsDialog.java)
+|   |   |               +-- util/
+|   |   |                   +-- (TimeConverter.java)
+|   |   +-- resources/
+|   |       +-- log4j2.xml
+|   |       +-- models/
+|   |           +-- vosk-model-small-vn-0.4/
+|   |               +-- ... (các file và thư mục con của model)
+|   +-- test/
+|       +-- (Mã nguồn unit test - nếu có)
+|
++-- target/
+|   +-- mp3joiner-1.0-SNAPSHOT-jar-with-dependencies.jar
+|   +-- ... (các file và thư mục khác)
+|
++-- MP3ManagerDB.sql
++-- pom.xml
++-- README.md
 ## 3. Yêu cầu hệ thống
 
 * **Hệ điều hành:** Windows (Ứng dụng được phát triển và thử nghiệm chủ yếu trên Windows).
